@@ -1,15 +1,15 @@
 var TwitterPackage = require('twitter');
 
 var secret = {
-  consumer_key: 'YOURS',
-  consumer_secret: 'YOURS',
-  access_token_key: 'YOURS',
-  access_token_secret: 'YOURS'
+  consumer_key: '@ apps.twitter.com -> Trabalho Final TABD',
+  consumer_secret: '@ apps.twitter.com -> Trabalho Final TABD',
+  access_token_key: '@ apps.twitter.com -> Trabalho Final TABD',
+  access_token_secret: '@ apps.twitter.com -> Trabalho Final TABD'
 }
 
 var Twitter = new TwitterPackage(secret);
 
-Twitter.stream('statuses/filter', {track: '@kopzinksi'}, function(stream) {
+Twitter.stream('statuses/filter', {track: '@RealDonaldTrump'}, function(stream) {
   stream.on('data', function(tweet) {
     console.log(tweet.text);
   });
