@@ -33,11 +33,17 @@ Twitter.stream('statuses/filter', { track: '@Vivoemrede' }, function (stream) {
 		var rt;
 		var truncated = tweet.truncated;
 		
+		//Logs tweet text
+		console.log(tweet.created_at);
+		console.log(tweet.user.screen_name);
+		
 		//Tests if tweet is truncaded or not
 		if(("extended_tweet" in tweet)){
 			text = tweet.extended_tweet.full_text;
+			console.log(tweet.extended_tweet.full_text);
 		}else{
 			text = tweet.text;
+			console.log(tweet.text);
 		}
 		
 		//Tests if is retweet or not
@@ -57,9 +63,6 @@ Twitter.stream('statuses/filter', { track: '@Vivoemrede' }, function (stream) {
 			var thisMention = {nome_de_tela: mention.screen_name, id_str: mention.id_str}
 			userMentions.push(thisMention);
 		});
-		
-		//Logs tweet text
-		console.log(tweet);
 		
 		//Saves tweet with these parameters
 		var post = new Post( {
