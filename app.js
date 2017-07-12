@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/TrabalhoFinal');
 mongoose.connect('mongodb://user7:123456@ds139942.mlab.com:39942/kopteste');
 
+var usuario = "user7";
+
 var rtExpression = /^RT/;
 
 var secret = {
@@ -19,7 +21,8 @@ var Post = mongoose.model('Post', {
 	em_resposta_a: { status_id: { type: String }, },
 	lingua: { type: String },
 	hashtags: [ { _id:false, text: {type: String} } ],
-	mencoes_a_usuarios: [ { _id:false, nome_de_tela: {type: String}, id_str: {type: String} }]
+	mencoes_a_usuarios: [ { _id:false, nome_de_tela: {type: String}, id_str: {type: String} }],
+	owner: String
 });
 
 var Twitter = new TwitterPackage(secret);
@@ -61,7 +64,7 @@ Twitter.stream('statuses/filter', { track: '@Vivoemrede' }, function (stream) {
 		});
 		tweet.entities.user_mentions.forEach(function(mention, index){
 			var thisMention = {nome_de_tela: mention.screen_name, id_str: mention.id_str}
-			userMentions.push(thisMention);
+			mencoes_a_usuarios.push(thisMention);
 		});
 		
 		//Saves tweet with these parameters
@@ -73,7 +76,8 @@ Twitter.stream('statuses/filter', { track: '@Vivoemrede' }, function (stream) {
 			},
 			lingua: tweet.lang,
 			hashtags: hashtags,
-			user_mentions: userMentions
+			mencoes_a_usuarios: userMentions,
+			owner: usuario
 		});
 		post.save(function (err) {
 			if (err) {

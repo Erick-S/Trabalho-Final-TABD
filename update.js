@@ -1,0 +1,1 @@
+db.posts.updateMany({tweet: {$regex: /@Vivoemrede/}}, {$set: {owner: "user7"}});
