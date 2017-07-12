@@ -1,6 +1,8 @@
 var TwitterPackage = require('twitter');
 var mongoose = require('mongoose');
 
+//Teste p/ commit
+
 //mongoose.connect('mongodb://localhost/TrabalhoFinal');
 mongoose.connect('mongodb://user7:123456@ds139942.mlab.com:39942/kopteste');
 
