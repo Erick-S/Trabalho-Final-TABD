@@ -53,10 +53,15 @@ var negativos = [
 		/demora/
 	];
 
-db.posts.aggregate([
-	{$project: {palavras: {$split:["$tweet", " "]}}},
-	{$unwind: {path: "$palavras"}},
-	{$group: {_id:"$palavras", cout:{$sum: 1}}}
-]);
+var countPalavras = db.runCommand(
+	{aggregate: "posts",
+	 pipeline: [
+		{$project: {palavras: {$split:["$tweet", " "]}}},
+		{$unwind: {path: "$palavras"}},
+		{$group: {_id:"$palavras", count:{$sum: 1}}}
+	 ]}
+);
 
-//TODO Change to db.runCommand + create positive version
+printjson(countPalavras.result);
+
+//TODO Query for "Negative" Tweets
