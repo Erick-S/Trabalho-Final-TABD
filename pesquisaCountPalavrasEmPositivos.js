@@ -28,12 +28,13 @@ var positivos = [
 var countPalavras = db.runCommand(
 	{aggregate: "posts",
 	 pipeline: [
+		{$match: {owner:"user7", tweet:{$in: positivos}}},
 		{$project: {palavras: {$split:["$tweet", " "]}}},
 		{$unwind: {path: "$palavras"}},
 		{$group: {_id:"$palavras", count:{$sum: 1}}}
 	 ]}
 );
 
-printjson(countPalavras.result);
+printjson(countPalavras);
 
 //TODO Query for "Positive" Tweets
