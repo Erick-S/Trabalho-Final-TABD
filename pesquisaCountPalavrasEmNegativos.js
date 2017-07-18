@@ -53,6 +53,8 @@ var negativos = [
 		/demora/
 	];
 
+//Should work with MongoDB 3.4+
+/*
 var countPalavras = db.runCommand(
 	{aggregate: "posts",
 	 pipeline: [
@@ -64,5 +66,21 @@ var countPalavras = db.runCommand(
 );
 
 printjson(countPalavras);
+*/
 
-//TODO Query for "Negative" Tweets
+map = function() {
+    var array = this.tweet.split(' ');
+    emit(this.tweet, array);
+}
+
+reduce = function(key, values) {
+    return values;
+}
+
+result = db.runCommand({
+		"query": {owner: "user7", tweet:{$in:negativos}},
+        "mapreduce" : "posts", 
+        "map" : map,
+        "reduce" : reduce,
+        "out" : "resultado_opinioes-negativas-Vivoemrede"
+});

@@ -25,6 +25,8 @@ var positivos = [
 		/encantado/
 	];
 
+//Should work with MongoDB 3.4+
+/*
 var countPalavras = db.runCommand(
 	{aggregate: "posts",
 	 pipeline: [
@@ -36,5 +38,21 @@ var countPalavras = db.runCommand(
 );
 
 printjson(countPalavras);
+*/
 
-//TODO Query for "Positive" Tweets
+map = function() {
+    var array = this.tweet.split(' ');
+    emit(this.tweet, array);
+}
+
+reduce = function(key, values) {
+    return values;
+}
+
+result = db.runCommand({
+		"query": {owner: "user7", tweet:{$in:positivos}},
+        "mapreduce" : "posts", 
+        "map" : map,
+        "reduce" : reduce,
+        "out" : "resultado_opinioes-positivas-Vivoemrede"
+});
